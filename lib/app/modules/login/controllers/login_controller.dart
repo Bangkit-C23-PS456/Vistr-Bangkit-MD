@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:vistr/app/modules/home/views/home_view.dart';
+import 'package:vistr/app/modules/pref/views/pref_view.dart';
 
 import '../../../data/app_theme.dart';
 
@@ -64,7 +65,7 @@ class LoginController extends GetxController {
         print("Is User Exist : ${box.read('isUserExist')}");
         print("User Token : ${box.read('userToken')}");
 
-        Get.offAll(HomeView());
+        Get.offAll(PrefView());
       } else {
         AppMainTheme.closeLoading();
         print(response.data['message']);
