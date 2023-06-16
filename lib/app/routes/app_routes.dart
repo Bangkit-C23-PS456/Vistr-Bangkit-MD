@@ -10,6 +10,14 @@ abstract class Routes {
   static const REGISTER = _Paths.REGISTER;
   static const PREF = _Paths.PREF;
   static const PICK_LOCATION = _Paths.PICK_LOCATION;
+  static const SETTING = _Paths.SETTING;
+  static const ITINERARY = _Paths.ITINERARY;
+  static const DETAIL_PLACE = _Paths.DETAIL_PLACE;
+  static const CATEGORY_PLACE = _Paths.CATEGORY_PLACE;
+  static const PICK_CITY = _Paths.PICK_CITY;
+  static const DETAIL_ITENARARY = _Paths.DETAIL_ITENARARY;
+  static const DETAIL_HOTEL = _Paths.DETAIL_HOTEL;
+  static const DETAIL_RESTAURANT = _Paths.DETAIL_RESTAURANT;
 }
 
 abstract class _Paths {
@@ -21,4 +29,12 @@ abstract class _Paths {
   static const REGISTER = '/register';
   static const PREF = '/pref';
   static const PICK_LOCATION = '/pick-location';
+  static const SETTING = '/setting';
+  static const ITINERARY = '/itinerary';
+  static const DETAIL_PLACE = '/detail-place';
+  static const CATEGORY_PLACE = '/category-place';
+  static const PICK_CITY = '/pick-city';
+  static const DETAIL_ITENARARY = '/detail-itenarary';
+  static const DETAIL_HOTEL = '/detail-hotel';
+  static const DETAIL_RESTAURANT = '/detail-restaurant';
 }

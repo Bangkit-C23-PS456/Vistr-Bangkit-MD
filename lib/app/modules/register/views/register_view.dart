@@ -123,6 +123,41 @@ class RegisterView extends GetView<RegisterController> {
                           ),
                           SizedBox(
                             height: 60,
+                            child: TextFormField(
+                              controller: controller.nameController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Nama Wajib Diisi!';
+                                }
+                                return null;
+                              },
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 14),
+                              decoration: InputDecoration(
+                                  // contentPadding: EdgeInsets.all(10.0),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    // width: 0.0 produces a thin "hairline" border
+                                    borderSide: BorderSide(
+                                        color: Color(0xFFE7E9EB), width: 1),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    // width: 0.0 produces a thin "hairline" border
+                                    borderSide: BorderSide(
+                                        color: Color(0xFF018386), width: 1),
+                                  ),
+                                  filled: true,
+                                  hintStyle: TextStyle(color: Colors.black),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.auto,
+                                  labelText: 'Nama Lengkap',
+                                  fillColor: Colors.white),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          SizedBox(
+                            height: 60,
                             child: Obx(
                               () => TextFormField(
                                 controller: controller.passwordController,

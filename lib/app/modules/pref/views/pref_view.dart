@@ -147,31 +147,45 @@ class PrefView extends GetView<PrefController> {
                   ),
                 ),
                 Spacer(),
-                SizedBox(
-                    width: MediaQuery.sizeOf(context).width,
-                    height: 50,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: () {
-                        controller.tabController.index = 1;
-                      },
-                      child: Container(
-                        width: 148,
-                        height: 60,
-                        child: Center(
-                          child: Text(
-                            controller.tabIndex != 2 ? "Selanjutnya" : "Mulai",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 16),
+                Obx(
+                  () => SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: 50,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(10),
+                        onTap: () {
+                          if (controller.idSelected.value != 0) {
+                            if (controller.idSelected.value == 1) {
+                              controller.activitySelected.value = "Indoor";
+                            } else {
+                              controller.activitySelected.value = "Outdoor";
+                            }
+                            print(controller.activitySelected.value);
+                            controller.tabController.index = 1;
+                          }
+                        },
+                        child: Container(
+                          width: 148,
+                          height: 60,
+                          child: Center(
+                            child: Text(
+                              controller.tabIndex != 2
+                                  ? "Selanjutnya"
+                                  : "Mulai",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 16),
+                            ),
                           ),
+                          decoration: BoxDecoration(
+                              color: controller.idSelected.value != 0
+                                  ? AppMainTheme.bluePrimary
+                                  : Colors.grey,
+                              borderRadius: BorderRadius.circular(10)),
                         ),
-                        decoration: BoxDecoration(
-                            color: AppMainTheme.bluePrimary,
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                    )),
+                      )),
+                ),
                 SizedBox(
                   height: 20,
                 )
@@ -203,78 +217,88 @@ class PrefView extends GetView<PrefController> {
                   height: 40,
                 ),
                 GetX<PrefController>(
-                  builder: (_) => Wrap(
-                    children: controller.listFilter
-                        .map((e) => FilterChip(
-                            label: Text(
-                              e.name,
-                              style: TextStyle(
-                                  color: e.isFilterActive.value
-                                      ? Colors.white
-                                      : AppMainTheme.bluePrimary),
-                            ),
-                            backgroundColor: Colors.transparent,
-                            shape: StadiumBorder(
-                                side: BorderSide(
-                                    color: AppMainTheme.bluePrimary)),
-                            selectedColor: AppMainTheme.bluePrimary,
-                            selected: e.isFilterActive.value,
-                            onSelected: (_) {
-                              if (controller.selectedItem.length == 5) {
-                                if (controller.selectedItem.contains(e)) {
-                                  controller.selectedItem.remove(e);
-                                  e.isFilterActive.value =
-                                      !e.isFilterActive.value;
-                                } else {
-                                  AppMainTheme.showSnackBar(context,
-                                      title: "Oops..",
-                                      desc: 'Maksimal 5 kategori dipilih!',
-                                      icon: Icons.close,
-                                      iconColor: AppMainTheme.redPrimary);
-                                }
-                              } else {
-                                e.isFilterActive.value =
-                                    !e.isFilterActive.value;
-                                if (controller.selectedItem.contains(e)) {
-                                  controller.selectedItem.remove(e);
-                                } else {
-                                  controller.selectedItem.add(e);
-                                }
-                              }
+                  builder: (_) => controller.isListFilterExist.value
+                      ? Wrap(
+                          children: controller.listFilter
+                              .map((e) => FilterChip(
+                                  label: Text(
+                                    e.name,
+                                    style: TextStyle(
+                                        color: e.isFilterActive.value
+                                            ? Colors.white
+                                            : AppMainTheme.bluePrimary),
+                                  ),
+                                  backgroundColor: Colors.transparent,
+                                  shape: StadiumBorder(
+                                      side: BorderSide(
+                                          color: AppMainTheme.bluePrimary)),
+                                  selectedColor: AppMainTheme.bluePrimary,
+                                  selected: e.isFilterActive.value,
+                                  onSelected: (_) {
+                                    if (controller.selectedItem.length == 5) {
+                                      if (controller.selectedItem.contains(e)) {
+                                        controller.selectedItem.remove(e);
+                                        e.isFilterActive.value =
+                                            !e.isFilterActive.value;
+                                      } else {
+                                        AppMainTheme.showSnackBar(context,
+                                            title: "Oops..",
+                                            desc:
+                                                'Maksimal 5 kategori dipilih!',
+                                            icon: Icons.close,
+                                            iconColor: AppMainTheme.redPrimary);
+                                      }
+                                    } else {
+                                      e.isFilterActive.value =
+                                          !e.isFilterActive.value;
+                                      if (controller.selectedItem.contains(e)) {
+                                        controller.selectedItem.remove(e);
+                                      } else {
+                                        controller.selectedItem.add(e);
+                                      }
+                                    }
 
-                              print(controller.selectedItem);
-                              controller.update();
-                            }))
-                        .toList(),
-                    spacing: 8,
-                  ),
+                                    print(controller.selectedItem[0].name);
+                                    controller.update();
+                                  }))
+                              .toList(),
+                          spacing: 8,
+                        )
+                      : Container(),
                 ),
                 Spacer(),
-                SizedBox(
-                    width: MediaQuery.sizeOf(context).width,
-                    height: 50,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: () {
-                        controller.tabController.index = 2;
-                      },
-                      child: Container(
-                        width: 148,
-                        height: 60,
-                        child: Center(
-                          child: Text(
-                            controller.tabIndex != 2 ? "Selanjutnya" : "Mulai",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 16),
+                GetBuilder<PrefController>(
+                    builder: (_) => SizedBox(
+                        width: MediaQuery.sizeOf(context).width,
+                        height: 50,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(10),
+                          onTap: () {
+                            if (controller.selectedItem.length != 0) {
+                              controller.tabController.index = 2;
+                            }
+                          },
+                          child: Container(
+                            width: 148,
+                            height: 60,
+                            child: Center(
+                              child: Text(
+                                controller.tabIndex != 2
+                                    ? "Selanjutnya"
+                                    : "Mulai",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 16),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                                color: controller.selectedItem.length != 0
+                                    ? AppMainTheme.bluePrimary
+                                    : Colors.grey,
+                                borderRadius: BorderRadius.circular(10)),
                           ),
-                        ),
-                        decoration: BoxDecoration(
-                            color: AppMainTheme.bluePrimary,
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                    )),
+                        ))),
                 SizedBox(
                   height: 20,
                 )
@@ -315,7 +339,9 @@ class PrefView extends GetView<PrefController> {
                                 "Alamat",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              Text("${controller.userAddress}"),
+                              Text(controller.userAddress != null
+                                  ? "${controller.userAddress}"
+                                  : "Belum memilih"),
                               SizedBox(
                                 height: 10,
                               ),
@@ -323,7 +349,9 @@ class PrefView extends GetView<PrefController> {
                                 "Kota",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              Text("${controller.userCity}"),
+                              Text(controller.userCity != null
+                                  ? "${controller.userCity}"
+                                  : "Belum memilih"),
                               SizedBox(
                                 height: 20,
                               ),
@@ -346,36 +374,39 @@ class PrefView extends GetView<PrefController> {
                                         color: AppMainTheme.bluePrimary)))),
                     onPressed: () => Get.to(PickLocationView())),
                 Spacer(),
-                SizedBox(
-                    width: MediaQuery.sizeOf(context).width,
-                    height: 50,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: () {
-                        Get.off(HomeView());
-                        AppMainTheme.showSnackBar(context,
-                            title: "Berhasil",
-                            desc: 'Selamat Berselancar!',
-                            icon: Icons.done,
-                            iconColor: AppMainTheme.bluePrimary);
-                      },
-                      child: Container(
-                        width: 148,
-                        height: 60,
-                        child: Center(
-                          child: Text(
-                            controller.tabIndex != 2 ? "Selanjutnya" : "Mulai",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 16),
+                GetBuilder<PrefController>(
+                  builder: (_) => SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: 50,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(10),
+                        onTap: () {
+                          if (controller.userCity != null) {
+                            controller.postPref(context);
+                          }
+                        },
+                        child: Container(
+                          width: 148,
+                          height: 60,
+                          child: Center(
+                            child: Text(
+                              controller.tabIndex != 2
+                                  ? "Selanjutnya"
+                                  : "Mulai",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 16),
+                            ),
                           ),
+                          decoration: BoxDecoration(
+                              color: controller.userCity != null
+                                  ? AppMainTheme.bluePrimary
+                                  : Colors.grey,
+                              borderRadius: BorderRadius.circular(10)),
                         ),
-                        decoration: BoxDecoration(
-                            color: AppMainTheme.bluePrimary,
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                    )),
+                      )),
+                ),
                 SizedBox(
                   height: 20,
                 )

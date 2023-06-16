@@ -12,7 +12,7 @@ class LoginController extends GetxController {
   //TODO: Implement LoginController
 
   final box = GetStorage();
-  RxBool isPasswordHidden = false.obs;
+  RxBool isPasswordHidden = true.obs;
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
 
   final emailController = TextEditingController();
@@ -61,7 +61,7 @@ class LoginController extends GetxController {
             iconColor: AppMainTheme.bluePrimary);
 
         box.write('isUserExist', true);
-        box.write('userToken', response.data['data']);
+        box.write('userToken', response.data['token']);
         print("Is User Exist : ${box.read('isUserExist')}");
         print("User Token : ${box.read('userToken')}");
 

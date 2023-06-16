@@ -10,10 +10,12 @@ class RegisterController extends GetxController {
   //TODO: Implement RegisterController
 
   final box = GetStorage();
-  RxBool isPasswordHidden = false.obs;
+  RxBool isPasswordHidden = true.obs;
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
 
   final emailController = TextEditingController();
+  final nameController = TextEditingController();
+
   final passwordController = TextEditingController();
 
   @override
@@ -44,6 +46,7 @@ class RegisterController extends GetxController {
               Options(followRedirects: false, validateStatus: (status) => true),
           data: {
             'email': emailController.text,
+            'name': nameController.text,
             'password': passwordController.text,
           });
 

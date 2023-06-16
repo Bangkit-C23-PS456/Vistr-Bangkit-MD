@@ -1,18 +1,19 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:vistr/app/modules/home/views/home_view.dart';
 import 'package:vistr/app/modules/onboarding/views/onboarding_view.dart';
+import 'package:vistr/app/modules/pref/views/pref_view.dart';
 
 class SplashscreenController extends GetxController {
   //TODO: Implement SplashscreenController
 
-  final count = 0.obs;
+  var box = GetStorage();
   @override
   void onInit() {
     super.onInit();
-    Timer(Duration(milliseconds: 2000), () {
-      Get.offAll(OnboardingView());
-    });
+    checkAuth();
   }
 
   @override
@@ -25,5 +26,27 @@ class SplashscreenController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  void checkAuth() {
+    if (box.read("isUserExist") != null) {
+      if (box.read("isUserExist")) {
+        if (box.read("isPrefExist") != null) {
+          Timer(Duration(milliseconds: 2000), () {
+            Get.offAll(HomeView());
+          });
+        } else {
+          Timer(Duration(milliseconds: 2000), () {
+            Get.offAll(PrefView());
+          });
+        }
+      } else {
+        Timer(Duration(milliseconds: 2000), () {
+          Get.offAll(OnboardingView());
+        });
+      }
+    } else {
+      Timer(Duration(milliseconds: 2000), () {
+        Get.offAll(OnboardingView());
+      });
+    }
+  }
 }

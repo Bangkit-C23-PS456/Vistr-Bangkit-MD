@@ -95,8 +95,8 @@ class LoginView extends GetView<LoginController> {
                                 }
                                 return null;
                               },
-                              style: TextStyle(
-                                  color: Color(0xFFA9ADB0), fontSize: 14),
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 14),
                               decoration: InputDecoration(
                                   // contentPadding: EdgeInsets.all(10.0),
                                   enabledBorder: OutlineInputBorder(
@@ -135,7 +135,7 @@ class LoginView extends GetView<LoginController> {
                                   return null;
                                 },
                                 style: TextStyle(
-                                    color: Color(0xFFA9ADB0), fontSize: 14),
+                                    color: Colors.black, fontSize: 14),
                                 obscureText: controller.isPasswordHidden.value,
                                 decoration: InputDecoration(
                                     suffixIcon: IconButton(

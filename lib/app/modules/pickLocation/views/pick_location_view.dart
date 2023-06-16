@@ -36,8 +36,12 @@ class PickLocationView extends GetView<PickLocationController> {
           mapLanguage: 'ar',
           onError: (e) => print(e),
           onPicked: (pickedData) {
+            print("picked data : $pickedData");
+            print("picked data addressdata : ${pickedData.addressData}");
+            print("picked data : ${pickedData.addressData}");
+
             prefController.userAddress = pickedData.address;
-            prefController.userCity = pickedData.addressData['country'];
+            prefController.userCity = pickedData.addressData['city'];
             prefController.userLat = pickedData.latLong.latitude;
             prefController.userLong = pickedData.latLong.longitude;
             prefController.update();
